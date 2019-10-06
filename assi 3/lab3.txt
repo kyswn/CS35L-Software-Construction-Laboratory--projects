@@ -1,0 +1,44 @@
+first download it 
+wget ftp://ftp.gnu.org/gnu/coreutils/coreutils-8.29.tar.xz
+
+then extract it 
+tar -xvf coreutils-8.29.tar.xz
+
+the verification fails, it says no such directory
+
+make a new directory
+cd /u/cs/grad/yining
+mkdir coreutils
+
+compile the file
+cd coreutils-8.29
+./configure --prefix=/u/cs/ugrad/yining/coreutils
+make 
+make install
+
+reproduce the bug
+cd ..
+cd coreutils
+cd bin
+./ls -a -A
+./ls -aA
+it still shows . an ..
+
+put the patch on
+cd ..
+cd ..
+cd coreutils-8.29
+paste the patch into a file called path.diff (using winscp)
+it says when patching file NEWS, Hunk #1 failed at 4
+
+make 
+there is an error
+
+I delete the coretils file and extract it again, and then edit the file so that only the src/ls.c remains, then I put the patch on, and then make 
+patch -p1 < patch.diff
+make
+
+the modified ls works withn the src directory without the bug, and the unmodified still has bug 
+
+
+

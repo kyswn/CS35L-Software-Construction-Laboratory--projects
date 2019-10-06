@@ -1,0 +1,14 @@
+up left:
+a tree of all the commits with branches and things, which is really easy to understand
+
+up middle: 
+who made those commits 
+
+upper right:
+the time those commits were made
+
+lower left: 
+when I select a commit, it shows the exact information of that commit
+
+lower right:
+lowerright: it is a list of files that are impacted by this commit 

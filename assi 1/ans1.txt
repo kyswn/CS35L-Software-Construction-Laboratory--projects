@@ -1,0 +1,107 @@
+In all my answers, I list the shell commands I used first, and then give the answer to the problem
+
+1. 
+man man
+
+man -k
+2. 
+which mv
+which sh
+
+/usr/local/cs/bin/mv
+/usr/bin/sh
+
+3. 
+find /usr/bin -executable -name ?r
+
+/usr/bin/tr
+/usr/bin/ar
+/usr/bin/pr
+
+4.
+readlink /usr/bin/emacs
+
+/etc/alternatives/emacs
+
+5.
+usr/bin/gcc --version
+gcc --version
+
+4.8.5
+8.2.0
+because we use different paths here, therefore we are actually running two different files, which have different version from each other
+
+6.man chmod
+
+u+sx:give user who owns it the permission to set user or group ID on execution, and to execute
+
+o-w: depreive other users not in the file's group of the permission to write
+
+7.man find 
+
+find /usr/local/cs -mtime -28 
+
+8.
+which find
+man which
+find /usr/bin -type l
+
+9.
+man find 
+find /usr/lib64 -type f -printf '%T+ %p\n' |sort|head -n 1
+
+tc18.5/Tix8.4.3/bitmaps/act_fold.gif
+
+
+find /usr/lib64 -name '.*'-type f -printf '%T+ %p\n' |sort|head -n 1
+
+python2.7/site-package/numpy/f2py/test/src/assumed_shape/.f2py_f2cmap
+
+10. 
+man locale
+man 7 locale
+
+it gets data from environmental variables, which, according to  locale(7) manual page, is LOCPAT
+
+11. 
+emacs
+C-h a
+
+the commands that includes downcases are:
+downcase-dwim, downcase-region, downcase-word
+
+12.
+C-h b
+C-s
+C-M-r
+
+C-M-r: isearch-backward-regexp
+C-M-s: iserach-forward-regexp
+C-M-t: transpose-sexps
+C-M-u: backward-up-list
+C-M-v: scroll-other-window
+
+13.
+C-h b
+C-s 
+C-g
+then move the cursor to "keyboard-quit" and click
+
+Keyboard-quit is an interactive compiled Lisp funcion in 'simple.el'. It is bound to C-g. Signal a 'quit' condition. During execution of Lisp code, this character causes a quit directly. At top-level, as an editor command, this simply beeps.
+
+14. 
+C-h b
+C-s 
+yank
+
+it reinsert ("paste")the last stretch of killed text.
+C-y
+
+15.
+cd /usr/bin
+ls -l
+emacs
+M-x dired
+
+it looks like ls -l doesn't show the files startin with .
+ 

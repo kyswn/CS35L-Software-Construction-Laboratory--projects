@@ -1,0 +1,105 @@
+2.
+
+i made changes on version 3.0 directly in the lab part, so I need to get a new one 
+
+mkdir newdi
+cd newdi
+git clone https://git.savannah.gnu.org/git/diffutils.git
+cd diffutils
+git checkout v3.0 -b quote
+
+
+3.
+patch it
+
+patch -p1 < ../../diffutils/quote-3.0-patch.txt
+
+patching file src/cmp.c
+patching file src/context.c
+patching file src/diff.c
+patching file src/diff3.c
+patching file src/dir.c
+patching file src/sdiff.c
+patching file src/side.c
+patching file src/util.c
+
+the patching is good
+
+4&5.
+
+for the files in section 3 that the patch works on
+
+use emacs to enter it 
+
+ C-x 4 a
+ 
+ and then type
+ 
+replace ` with '
+C-x C-c
+6. commit it 
+
+[yining@lnxsrv09 ~/newdi/diffutils]$ git commit -F ChangeLog
+[detached HEAD 31ca584] 2018-12-07  Yining Wang  <yining@lnxsrv09.seas.ucla.edu>
+ Committer: Yining Wang <yining@lnxsrv09.seas.ucla.edu>
+Your name and email address were configured automatically based
+on your username and hostname. Please check that they are accurate.
+You can suppress this message by setting them explicitly. Run the
+following command and follow the instructions in your editor to edit
+your configuration file:
+
+    git config --global --edit
+
+After doing this, you may fix the identity used for this commit with:
+
+    git commit --amend --reset-author
+
+ 9 files changed, 743 insertions(+), 49 deletions(-)
+ create mode 100644 src/#cmp.c#
+
+ 
+7.
+I create a formatted patch 
+
+git format-patch -1 --stdout > formatted-patch.txt
+
+8.
+my partner is Shunning Ma
+
+git checkout v3.0 -b partner
+git am < formatted-patch.txt
+
+./bootstrap
+./configure
+make
+
+and test it 
+./src/diff . -
+./src/diff --help
+and all the quotes are correct
+
+9.
+verify that my changelog works
+
+git am formatted-patch.txt
+
+make distdir
+cd diffutils-3.0.1-22fc/
+emacs Change
+
+I see that my changelog is correct
+
+10. 
+
+mkdir xin
+cd xin
+git clone git://git.savannah.gnu.org/emacs.git
+gitk
+
+Then I used gitk to check
+
+The newest merge point that is no newer than 2015-01-25 is:
+
+Merge branch 'master' into xwidget 2015-01-25 12:19:27
+
+

@@ -1,0 +1,83 @@
+locale
+export LC_ALL='C'
+locale
+cd ~
+mkdir proj2
+cd proj2
+touch words
+cd /usr/share/dict
+sort words >~/project2/words
+wget -O assign2.txt http://web.cs.ucla.edu/classes/fall18/cs35L/assign/assign2.html
+
+tr -c 'A-Za-z' '[\n*]'<assign2.txt
+it prints out everything that is a letter and replace everything not a letter with new lines. the -c means the complementary set of 'A-Za-z'
+
+tr -cs 'A-Za-z' '[\n*]'assign2.txt
+becaise it is -cs instead of -c, it differs from the previous command in that it squeezes all the consecutive new lines into only one new line
+
+tr -cs 'A-Za-z' '[\n*]' assign2.txt| sort
+it differs from the last commend in that the it pipes the result into a sort command, so that results are sorted
+
+tr -cs 'A-Za-z' '[\n*]' assign2.txt| sort -u
+because of the -u option, same things only appear once in the results
+
+tr -cs 'A-Za-z' '[\n*]' assign2.txt| sort -u | comm - words
+the comm compares the result of the last command with the words file line by line. the first colume of the result is what only the result of last command has, and the the second colume is what only the 'words' file has. and the last colume is what they share in common
+
+tr -cs 'A-Za-z' '[\n*]' assign2.txt| sort -u | comm -23 - words
+the -23 option erases the second and third colume of the result of the last command. So what we have now is everything they have in common, (and of couse it is uniquely sorted)
+
+to download the website, we input the command line:
+wget mauimapp.com/mooldlo/hwnwdseng.htm
+
+to create a shell script, we type 
+touch buildwords
+emacs buildwords
+
+in the shell script, we write 
+
+#!/bin/bash
+sed '/<!DOCTYPE/, /Adopt<\/td>/d'| #delete everything before the table
+    sed '/<\/table>/,/<\/html>/d'| #delete everything after the table
+tr '[:upper:]' '[:lower:]'|        #translate all upperclass to lowerclass
+    sed 's/<[^>]*>//g' |           #delete html tags
+    sed '/<tr>/,/<\/td>/d'|		   #delete all the English words
+    sed 's/[\, ]/\n/g'|			   # translate all comma and empty space into new line
+    sed "s/\`/\'/g"|			   # translate all ` into '
+    tr -d '[:blank:]'|				# delete all the blanks
+sed "/[^p^k^'^m^n^w^l^h^a^e^i^o^u]/d"|   #delete all the words which are not contain non-Hawaiian words
+sed '/^$/d' |							 # delete all the blank lines
+sort -u									 # sort it 
+    
+
+
+
+cat assign2.txt| tr -cs 'A-Za-z' '[\n*]' | tr '[:upper:]' '[:lower:]'| sort -u | comm -23 - hwords|wc 
+it prints out  402 401 2588
+there are 401 misspelled Hawaiian words
+
+cat assign2.txt|tr -cs 'A-Za-z' '[\n*]' |tr '[:upper:]' '[:lower:]'| sort -u | comm -23 - words|wc 
+it prints out 39 38 247
+there are 38 misspelled English words
+
+cat assign2.txt|tr -cs 'A-Za-z' '[\n*]' |tr '[:upper:]' '[:lower:]'| sort -u | comm -23 - hwords| comm -12 - words|wc
+it prints out 366 366 2356
+there are 366 words misspelled as Hawaiian but not as English
+example: a able about above
+
+cat assign2.txt|tr -cs 'A-Za-z' '[\n*]' |tr '[:upper:]' '[:lower:]'| sort -u | comm -23 - words| comm -12 - hwords|wc
+it prints out 3 3 15 
+there are 3 words misspelled as English but not as Hawaiian
+example: halau lau kiwi
+
+
+
+
+
+
+
+
+
+
+
+ 

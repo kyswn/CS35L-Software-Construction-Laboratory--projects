@@ -1,0 +1,76 @@
+build the old version:
+wget https://web.cs.ucla.edu/classes/fall18/cs35L/assign/coreutils-with-bug.tar.gz
+tar -xzvf coreutils-with-bug.tar.gz
+mkdir coreutilswithbug
+cd coreutils-with-bug
+./configure --prefix=/u/cs/ugrad/yining/coreutilswithbug
+make 
+
+it says error: conflicting types for 'futimens'
+
+build it with the patch:
+wget https://web.cs.ucla.edu/classes/fall18/cs35L/assign/coreutils.diff
+patch -p0 < coreutils.diff
+make
+make install
+
+the patch fixed it because the declaration and defination for "futiments"
+ in utimens.c was bad and the patch fixes it and called it 
+coreutils_futimens, and then changed all the futimens function name 
+to coreutils_futimens. It also changed all the tee function name 
+to coreutils_tee
+
+reproduce the bug:
+
+$ tmp=$(mktemp -d)
+$ cd $tmp
+$ touch -d '1918-11-11 11:00 GMT' wwi-armistice
+$ touch now
+$ sleep 1
+$ touch now1
+$ TZ=UTC0 ls -lt --full-time wwi-armistice now now1
+
+when we use the nomal ls it is good without bug
+
+$ cd
+$ rm -fr $tmp
+cd coreutils-with-bug
+cd src
+$ tmp=$(mktemp -d)
+$ cd $tmp
+$ touch -d '1918-11-11 11:00 GMT' wwi-armistice
+$ touch now
+$ sleep 1
+$ touch now1
+$ TZ=UTC0 ./ls -lt --full-time wwi-armistice now now1
+
+now we have a buggy result!
+
+debugging:
+refer to lab4.diff
+
+patch -p0 < lab4.diff
+
+now test it again 
+$ tmp=$(mktemp -d)
+$ cd $tmp
+$ touch -d '1918-11-11 11:00 GMT' wwi-armistice
+$ touch now
+$ sleep 1
+$ touch now1
+$ TZ=UTC0 ls -lt --full-time wwi-armistice now now1
+
+now the result is correct
+
+test it on the linux server
+$ touch now
+$ sleep 1
+$ touch now1
+$ touch -d '1918-11-11 11:00 GMT' wwi-armistice
+$ TZ=UTC0 ./35l/hw4/coreutils-with-bug/src/ls -lt --full-time wwi-armistice now now1
+
+the result is right, only that the date of the 1918 file is wrong. It is 2054 instead of 1918.
+Because SEASnet NFS file system has 32-bit time stamps and Local File System on Linux server has 64-bit time stamps
+
+
+

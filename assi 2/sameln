@@ -1,0 +1,54 @@
+#!/bin/bash
+
+dir=$1
+hiddenfile=`find "$dir" -maxdepth 1 -type f -printf "%f\n" | grep '^\.' | sort`
+otherfile=`ls $dir | sort`
+IFS=$'\n'
+
+declare -a valid
+let num=0
+for thing in $hiddenfile
+do
+    if [ -d "$dir/$thing" ] || [ -L "$dir/$thing" ]
+       then
+       continue
+    fi
+    if [ ! -r "$dir/$thing" ]
+    then echo "$dir/$thing is not readable, this is an error"
+	 continue
+    fi
+    valid[$num]="$thing"
+    let num=num+1
+done
+
+for thing in $otherfile
+do
+    if [ -d "$dir/$thing" ] || [ -L "$dir/$thing" ]
+    then
+	continue
+    fi
+    if [ ! -r "$dir/$thing" ]
+    then
+	echo "$dir/$thing is not readable, we have an error"
+	continue
+    fi
+    valid[$num]="$thing"
+    let num=num+1
+done
+
+i=0
+while (( i<num ))
+do
+    j=i+1
+    while(( j<num ))
+    do
+	check=`diff "$dir/${valid[$i]}" "$dir/${valid[$j]}"`
+	if [ -z "$check" ]
+	then
+	    rm "$dir/${valid[$j]}"
+	    ln "$dir/${valid[$i]}" "$dir/${valid[$j]}"
+	fi
+	let j=j+1
+    done
+    let i=i+1
+done

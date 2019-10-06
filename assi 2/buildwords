@@ -1,0 +1,13 @@
+#!/bin/bash
+sed '/<!DOCTYPE/, /Adopt<\/td>/d'|
+    sed '/<\/table>/,/<\/html>/d'|
+tr '[:upper:]' '[:lower:]'|
+    sed 's/<[^>]*>//g' |
+    sed '/<tr>/,/<\/td>/d'|
+    sed 's/[\, ]/\n/g'|
+    sed "s/\`/\'/g"|
+    tr -d '[:blank:]'|
+sed "/[^p^k^'^m^n^w^l^h^a^e^i^o^u]/d"|
+sed '/^$/d' |
+sort -u
+    

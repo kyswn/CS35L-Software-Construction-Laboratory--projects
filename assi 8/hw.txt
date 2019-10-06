@@ -1,0 +1,15 @@
+1.
+Yes it is still secure 
+Because they get never get the private key
+
+1) 
+still safe, because by tapp on my keyboard they still don't know the private key
+
+2)
+Not secure anymore, for they could get the private key from the usb and decrypt everything
+
+2.
+It's not working as expected because others could potentially replace my public key, in this case the verify would still pass
+because it only verify if the signature matches or not
+
+To fix it I could upload my public key to the Internet, so that receivers have the right key to verify

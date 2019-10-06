@@ -1,0 +1,44 @@
+1&2：
+see tr2b.c and tr2u.c
+gcc -g tr2b.c -o tr2b
+gcc -g tr2u.c -o tr2u
+
+3.
+make a 5000000 byte file
+cat /dev/urandom | head -c 5000000 > big_file.txt
+
+a.
+strace -o strbc ./tr2b a b < big_file.txt > strbc.txt 
+cat strbc | wc -l
+it shows 31
+
+strace -o struc ./tr2u a b < big_file.txt > struc.txt 
+cat struc | wc -l
+it shows 10000026
+it also takes significantly more time to process
+
+b.
+strace -o strbt ./tr2b a b < big_file.txt 
+cat strbt | wc -l
+it shows 31
+
+strace -o strut ./tr2u a b < big_file.txt 
+cat strut | wc -l
+it shows 10000026
+it also takes significantly more time to process
+
+overall, the unbuffered version takes significantly more system calls than the buffered version.
+Also, the speed of copying to terminal takes the same time as copying to another file
+
+4.
+time ./tr2b a b < big_file.txt 
+real 0m0.005s
+user 0m0.002s
+sys  0m0.003s
+
+time ./tr2u a b < big_file.txt 
+real 0m15.433s
+user 0m1.965s
+sys  0m13.365s
+
+the unbuffered version takes significantly more time

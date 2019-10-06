@@ -1,0 +1,78 @@
+use notepad to open it 
+
+lab.txt
+
+1&2£º
+see tr2b.c and tr2u.c
+gcc -g tr2b.c -o tr2b
+gcc -g tr2u.c -o tr2u
+
+3.
+make a 5000000 byte file
+cat /dev/urandom | head -c 5000000 > big_file.txt
+
+a.
+strace -o strbc ./tr2b a b < big_file.txt > strbc.txt 
+cat strbc | wc -l
+it shows 31
+
+strace -o struc ./tr2u a b < big_file.txt > struc.txt 
+cat struc | wc -l
+it shows 10000026
+it also takes significantly more time to process
+
+b.
+strace -o strbt ./tr2b a b < big_file.txt 
+cat strbt | wc -l
+it shows 31
+
+strace -o strut ./tr2u a b < big_file.txt 
+cat strut | wc -l
+it shows 10000026
+it also takes significantly more time to process
+
+overall, the unbuffered version takes significantly more system calls than the buffered version.
+Also, the speed of copying to terminal takes the same time as copying to another file
+
+4.
+time ./tr2b a b < big_file.txt 
+real 0m0.005s
+user 0m0.002s
+sys  0m0.003s
+
+time ./tr2u a b < big_file.txt 
+real 0m15.433s
+user 0m1.965s
+sys  0m13.365s
+
+the unbuffered version takes significantly more time
+
+
+homework:
+
+time ./sfrobu < big_file.txt > outsfrobu
+real	0m5.764s
+user	0m0.625s
+sys	0m5.090s
+
+time ./sfrob < big_file.txt > outsfrob
+real	0m1.902s
+user	0m0.680s
+sys	0m0.159s
+
+time ./sfrobs < big_file.txt > outsfrobs
+real	0m1.162s
+user	0m0.073s
+sys	0m0.078s
+
+time ./sfrobu -f < big_file.txt > outsfrobuf
+real	0m4.724s
+user	0m0.540s
+sys	0m6.002s
+
+time ./sfrobs -f < big_file.txt > outsfrobsf
+real	0m0.167s
+user	0m0.069s
+sys	0m0.077s
+
+the unbuffered version takes significantly more time than the shell script version

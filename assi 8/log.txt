@@ -1,0 +1,59 @@
+my parter is Ding Hao
+
+generate key:
+$ ssh-keygen
+And I used the default location
+password is 12345
+it shows a image like this:
+
++---[RSA 2048]----+
+|            ..   |
+|            ..   |
+|           .  .  |
+|            .o.  |
+|        S   o.o+ |
+|     o o . . ++o+|
+|    . = o .   oE+|
+|     . + .     .o|
+|      . .      .o|
++-----------------+
+
+Create an account for Ding Hao
+$ sudo useradd –d /home/dinghao –m wangyining
+$ sudo passwd dinghao
+
+
+Create .ssh directory for the new user
+$ cd ~
+$ sudo mkdir .ssh
+Change ownership and permission on .ssh directory
+$ sudo chown –R dinghao .ssh
+$ sudo chmod 700 .ssh
+
+look up my id address:
+$ ifconfig
+172.67.24.8
+
+my partner's is 172.67.24.9
+
+
+key-based authentication
+$ sudo emacs /etc/ssh/sshd_config
+change the option to no
+$ ssh-copy-id -i wangyining@172.67.24.9
+I first typped yes.
+Then I typped in my password to log in and exited.
+$ ssh-add
+I typped in the public key: 12345
+
+Then I did
+$ ssh wangyining@172.67.24.9
+
+
+
+SSH to server with -X
+$ ssh -X wangyining@172.67.24.9
+$ xterm
+and it works
+
+

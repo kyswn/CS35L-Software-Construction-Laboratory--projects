@@ -1,0 +1,10 @@
+Q1: It does improve the performance because it is a behaviour against the POSIX.1-2008 rule that " -a and 
+-A should override each other" , which is not good 
+
+Q2: maybe there are other things built on this bug, assuming -a would override -A. After we debug, those things might not work as expected
+
+Q3: there would be an error, because, the function random.choice() would not work
+
+Q4: it wouldn't work
+except IOError as (errno, strerror) is not a python 3 feature
+

@@ -1,0 +1,11 @@
+--- timespec.h	2018-11-08 20:52:51.755292000 -0800
++++ timespec2.h	2018-11-08 20:52:01.526203000 -0800
+@@ -46,6 +46,8 @@
+ timespec_cmp (struct timespec a, struct timespec b)
+ {
+   int diff = a.tv_sec - b.tv_sec;
++  if (a.tv_sec < 0 && b.tv_sec > 0 && diff > 0)
++    return -1;
+   return diff ? diff : a.tv_nsec - b.tv_nsec;
+ }
+ 

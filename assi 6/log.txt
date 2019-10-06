@@ -1,0 +1,44 @@
+which sort
+to see if the sort in use now is the right sort
+
+sort --version
+sort(GNU coreutils) 8.30
+to see if the version is good, and it is good
+
+generate the file:
+((a=1<<26))
+od -An -f -N $a </dev/urandom | tr -s ' ' '\n' >random.txt
+
+time it:
+no parallel:
+time -p sort -g random.txt > /dev/null
+real 38.91
+user 198.64
+sys 0.83
+
+run with one thread
+time -p sort -g --parallel=1 random.txt > /dev/null
+real 178.94
+user 178.58
+sys 0.35
+
+run with two threads:
+time -p sort -g --parallel=2 random.txt > /dev/null
+real 95.04
+user 180.66
+sys 0.53
+
+run with four threads:
+time -p sort -g --parallel=4 random.txt > /dev/null
+real 56,44
+user 190.52
+sys 0.63
+
+run with eight threads:
+time -p sort -g --parallel=8 random.txt > /dev/null
+real 36.21
+user 198.77
+sys 0.82
+
+the result indicates that the more threads we use, the less the real time is, and the more user time 
+and system time is. Also, the no parallel time is roughly the same as the 8 threads time.
